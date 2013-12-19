@@ -64,7 +64,6 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
                 bMatrix[i][j].setBackground(matrix.getCell(i, j).isAlive() ? color : Color.white);
             }
         }
-
     }
 
     private void delay(int i) {
