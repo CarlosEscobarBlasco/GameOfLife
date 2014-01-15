@@ -12,11 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class SwingOtions extends JFrame {
+    
 
     public void execute(Matrix matrix) {
         this.setTitle("Options");
         this.createComponents(matrix);
-        this.setBounds(820, 100, 200, 150);
+        this.setBounds(820, 100, 200, 170);
         this.setResizable(false);
         this.setVisible(true);
     }
@@ -33,6 +34,7 @@ public class SwingOtions extends JFrame {
         panel.add(createGliderButton(matrix));
         panel.add(createExitButton());
         panel.add(createColorComboBox());
+        panel.add(selectSound());
         return panel;
     }
 
@@ -84,7 +86,25 @@ public class SwingOtions extends JFrame {
         });
         return button;
     }
-    
+    private JComboBox selectSound(){
+        final String[] sounds = {"Select a Sound","Centro PKM","Opening","Primavera","Final Fantasy"};
+        final JComboBox comboBox = new JComboBox(sounds);
+        comboBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String soundPath=SwingMatrixDialog.getSound().getSoundPath();
+                String selected = comboBox.getSelectedItem().toString();
+                if (selected.equals(sounds[1])) soundPath="Sound\\pkm-Pokemon_Center.wav";
+                if (selected.equals(sounds[2])) soundPath="Sound\\pkm-Opening.wav";
+                if (selected.equals(sounds[3])) soundPath="Sound\\pkm-Primavera.wav";
+                if (selected.equals(sounds[4])) soundPath="Sound\\FF-Prelude.wav";
+                    SwingMatrixDialog.getSound().changeSound(soundPath);
+                    SwingMatrixDialog.getSound().loop();
+            }
+        });
+        return comboBox;   
+    }
     private JComboBox createColorComboBox() {
         final String[] colors = {"Select a Colour","Green", "Red", "Blue","Black"};
         final JComboBox comboBox = new JComboBox(colors);

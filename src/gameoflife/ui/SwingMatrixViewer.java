@@ -1,54 +1,61 @@
 package gameoflife.ui;
 
+import gameoflife.model.Sound;
 import gameoflife.model.MatrixChanger;
 import gameoflife.model.Matrix;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 
 public class SwingMatrixViewer extends JFrame implements MatrixViewer {
-
     private JButton[][] bMatrix;
     private Matrix matrix;
-    private boolean bool = true;
+    private static boolean bool = false;
     private static int timeDelay = 120;
     private static Color color = new Color(0, 250, 0);
+    private static boolean start = false;
 
+    public static void setStart(boolean start) {
+        SwingMatrixViewer.start = start;
+    }
+    
     public SwingMatrixViewer(Matrix matrix) {
-        this.matrix=matrix;
-        this.bMatrix=new JButton[matrix.high()][matrix.width()];
+        this.matrix = matrix;
+        this.bMatrix = new JButton[matrix.high()][matrix.width()];
         this.setTitle("Game of Life");
         this.setBounds(200, 30, 620, 600);
         this.setResizable(false);
         createButtonsMatrix();
         createComponents();
-        this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-
     @Override
     public void show(Matrix matrix) {
+        this.setVisible(start);
         while (bool) {
             refresh(matrix);
             delay(timeDelay);
             MatrixChanger.change(matrix);
+            
         }
     }
-    
+
+    public static void setBool(boolean bool) {
+        SwingMatrixViewer.bool = bool;
+    }
+
     public static void setColor(Color color) {
         SwingMatrixViewer.color = color;
     }
-    
+
     public static void setTimeDelay(int timeDelay) {
         SwingMatrixViewer.timeDelay = timeDelay;
     }
@@ -61,6 +68,13 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
     private void refresh(Matrix matrix) {
         for (int i = 0; i < bMatrix.length; i++) {
             for (int j = 0; j < bMatrix[0].length; j++) {
+//                if (matrix.getCell(i, j).isPreviusState()) {
+//                    bMatrix[i][j].setBackground(new Color(193, 255, 193));
+//                } else if (matrix.getCell(i, j).isAlive()) {
+//                    bMatrix[i][j].setBackground(color);
+//                } else {
+//                    bMatrix[i][j].setBackground(Color.white);
+//                }
                 bMatrix[i][j].setBackground(matrix.getCell(i, j).isAlive() ? color : Color.white);
             }
         }
@@ -82,7 +96,7 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent ae) {
-                        button.setBackground(button.getBackground()!=Color.WHITE?Color.WHITE:color );
+                        button.setBackground(button.getBackground() != Color.WHITE ? Color.WHITE : color);
                         matrix.setCell(ii, jj, matrix.getCell(ii, jj).isAlive() ? false : true);
                     }
                 });
@@ -122,11 +136,16 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                Sound buttonSound = new Sound("Sound\\lockinchampion.wav");
+                buttonSound.play();
                 bool = bool ? false : true;
+                if(bool)SwingMatrixDialog.getSound().loop();
+                if(!bool)SwingMatrixDialog.getSound().pause();
             }
         });
         return button;
     }
+
     private JButton createSlowerButton() {
         final JButton button = new JButton();
         button.setPreferredSize(new Dimension(57, 26));
@@ -166,5 +185,4 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
         });
         return button;
     }
-
 }

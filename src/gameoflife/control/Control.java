@@ -2,6 +2,7 @@ package gameoflife.control;
 
 import gameoflife.model.Matrix;
 import gameoflife.ui.MatrixViewer;
+import gameoflife.ui.SwingMatrixDialog;
 
 public class Control {
 
@@ -14,6 +15,8 @@ public class Control {
     }
 
     public void execute() {
+        SwingMatrixDialog dialog= new SwingMatrixDialog();
+        dialog.show();
         while (true) {
             viewer.show(matrix);
         }

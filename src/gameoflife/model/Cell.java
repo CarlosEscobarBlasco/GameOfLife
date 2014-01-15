@@ -4,6 +4,7 @@ public class Cell {
 
     private boolean alive;
     private boolean nextState;
+    private boolean previusState;
 
     public Cell(boolean alive) {
         this.alive = alive;
@@ -25,8 +26,18 @@ public class Cell {
         return nextState;
     }
 
+    public boolean isPreviusState() {
+        return previusState;
+    }
+
+    public void setPreviusState(boolean previusState) {
+        this.previusState = previusState;
+    }
+    
+
     @Override
     public String toString() {
+        if(previusState) return "[·]";
         return alive ? "[#]" : "[ ]";
     }
 }
