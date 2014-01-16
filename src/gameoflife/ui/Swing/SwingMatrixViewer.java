@@ -1,8 +1,9 @@
-package gameoflife.ui;
+package gameoflife.ui.Swing;
 
 import gameoflife.model.Sound;
 import gameoflife.model.MatrixChanger;
 import gameoflife.model.Matrix;
+import gameoflife.ui.MatrixViewer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +18,7 @@ import javax.swing.JPanel;
 public class SwingMatrixViewer extends JFrame implements MatrixViewer {
     private JButton[][] bMatrix;
     private Matrix matrix;
-    private static boolean bool = false;
+    private static boolean refresh = false;
     private static int timeDelay = 120;
     private static Color color = new Color(0, 250, 0);
     private static boolean start = false;
@@ -30,7 +31,8 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
         this.matrix = matrix;
         this.bMatrix = new JButton[matrix.high()][matrix.width()];
         this.setTitle("Game of Life");
-        this.setBounds(200, 30, 620, 600);
+        this.setSize(620, 600);
+        this.setLocationRelativeTo(null);
         this.setResizable(false);
         createButtonsMatrix();
         createComponents();
@@ -40,7 +42,7 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
     @Override
     public void show(Matrix matrix) {
         this.setVisible(start);
-        while (bool) {
+        while (refresh) {
             refresh(matrix);
             delay(timeDelay);
             MatrixChanger.change(matrix);
@@ -48,8 +50,8 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
         }
     }
 
-    public static void setBool(boolean bool) {
-        SwingMatrixViewer.bool = bool;
+    public static void setRefresh(boolean refresh) {
+        SwingMatrixViewer.refresh = refresh;
     }
 
     public static void setColor(Color color) {
@@ -68,14 +70,21 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
     private void refresh(Matrix matrix) {
         for (int i = 0; i < bMatrix.length; i++) {
             for (int j = 0; j < bMatrix[0].length; j++) {
-//                if (matrix.getCell(i, j).isPreviusState()) {
-//                    bMatrix[i][j].setBackground(new Color(193, 255, 193));
-//                } else if (matrix.getCell(i, j).isAlive()) {
-//                    bMatrix[i][j].setBackground(color);
-//                } else {
-//                    bMatrix[i][j].setBackground(Color.white);
-//                }
                 bMatrix[i][j].setBackground(matrix.getCell(i, j).isAlive() ? color : Color.white);
+            }
+        }
+    }
+    
+    private void refresh2(Matrix matrix) {
+                for (int i = 0; i < bMatrix.length; i++) {
+            for (int j = 0; j < bMatrix[0].length; j++) {
+                if (matrix.getCell(i, j).isPreviusState()) {
+                    bMatrix[i][j].setBackground(new Color(193, 255, 193));
+                } else if (matrix.getCell(i, j).isAlive()) {
+                    bMatrix[i][j].setBackground(color);
+                } else {
+                    bMatrix[i][j].setBackground(Color.white);
+                }
             }
         }
     }
@@ -115,7 +124,6 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
 
         }
         panel.setMaximumSize(new Dimension(620, 610));
-        //panel.setBorder(BorderFactory.createLineBorder(Color.black));
         return panel;
     }
 
@@ -131,16 +139,16 @@ public class SwingMatrixViewer extends JFrame implements MatrixViewer {
     private JButton createPausePlayButton() {
         final JButton button = new JButton();
         button.setPreferredSize(new Dimension(57, 26));
-        ImageIcon imagen = new ImageIcon("Images//pp.png");
+        ImageIcon imagen = new ImageIcon("Images//pause&play.png");
         button.setIcon(imagen);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Sound buttonSound = new Sound("Sound\\lockinchampion.wav");
                 buttonSound.play();
-                bool = bool ? false : true;
-                if(bool)SwingMatrixDialog.getSound().loop();
-                if(!bool)SwingMatrixDialog.getSound().pause();
+                refresh = refresh ? false : true;
+                if(refresh)SwingMatrixDialog.getSound().loop();
+                if(!refresh)SwingMatrixDialog.getSound().pause();
             }
         });
         return button;

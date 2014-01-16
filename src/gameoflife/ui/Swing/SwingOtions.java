@@ -1,4 +1,4 @@
-package gameoflife.ui;
+package gameoflife.ui.Swing;
 
 import gameoflife.model.Matrix;
 import gameoflife.persistance.MatrixLoader;
@@ -17,7 +17,7 @@ public class SwingOtions extends JFrame {
     public void execute(Matrix matrix) {
         this.setTitle("Options");
         this.createComponents(matrix);
-        this.setBounds(820, 100, 200, 170);
+        this.setBounds(1000, 100, 200, 170);
         this.setResizable(false);
         this.setVisible(true);
     }
@@ -44,7 +44,7 @@ public class SwingOtions extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                SwingMatrixViewer.setTimeDelay(120);
+                //SwingMatrixViewer.setTimeDelay(120);
                 MatrixLoader.loadRandom(matrix);
             }
         });

@@ -1,9 +1,6 @@
+package gameoflife.ui.Swing;
 
-
-package gameoflife.ui;
-
-import java.awt.Color;
-import java.awt.PopupMenu;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
@@ -11,8 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class StartOptions extends JFrame{
-
+public class SwingStartOptions extends JFrame{
+//NON FUNCTIONAL YET
+    
+    static Dimension dimension;    
+          
     void execute() {
         this.setTitle("Options");
         this.createComponents();
@@ -34,18 +34,23 @@ public class StartOptions extends JFrame{
     private JComboBox createColorComboBox() {
         final String[] colors = {"Select Size","Big", "Medium", "Small"};
         final JComboBox comboBox = new JComboBox(colors);
+        dimension = new Dimension(35, 40);
         comboBox.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent ae) {
                 String selected = comboBox.getSelectedItem().toString();
-                if (selected.equals(colors[1])) System.out.println("Big selected");
-                if (selected.equals(colors[2])) System.out.println("Medium selected");
-                if (selected.equals(colors[3])) System.out.println("Small selected");
-
+                if (selected.equals(colors[1])) dimension = new Dimension(15, 20); //this.setSize(320, 300);
+                if (selected.equals(colors[2])) dimension = new Dimension(25, 30); //this.setSize(460, 500);
+                if (selected.equals(colors[3])) dimension = new Dimension(35, 40); //this.setSize(620, 600);
+                // AnchuraAprox(izq) = 15*NºdeCeldas(der) + 20
             }
         });
         return comboBox;
     }
 
+    public static Dimension getDimension() {
+        return dimension;
+    }
+    
+    
 }

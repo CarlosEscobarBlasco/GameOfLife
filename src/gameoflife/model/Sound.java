@@ -48,15 +48,14 @@ public class Sound {
     }
 
     public void changeSound(String soundPath) {
-        if (this.soundPath != soundPath) {
+        if (!this.soundPath.equals(soundPath)) {
             sound.close();
             try {
                 sound.open(AudioSystem.getAudioInputStream(new File(soundPath)));
-                this.soundPath=soundPath;
+                this.soundPath = soundPath;
                 sound.start();
             } catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
             }
         }
     }
-
 }

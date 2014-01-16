@@ -1,6 +1,7 @@
-package gameoflife.ui;
+package gameoflife.ui.Swing;
 
 import gameoflife.model.Sound;
+import gameoflife.ui.MatrixDialog;
 import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,7 +15,8 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class SwingMatrixDialog extends JFrame {
+public class SwingMatrixDialog implements MatrixDialog {
+
     private static Sound sound = new Sound("Sound\\pkm-Pokemon_Center.wav");
 
     public static Sound getSound() {
@@ -24,7 +26,8 @@ public class SwingMatrixDialog extends JFrame {
     @Override
     public void show() {
         JFrame frame = new JFrame();
-        frame.setBounds(300, 150, 500, 350);
+        frame.setSize(400, 350);
+        frame.setLocationRelativeTo(null);
         frame.add(createPanel(frame));
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         sound.loop();
@@ -54,7 +57,7 @@ public class SwingMatrixDialog extends JFrame {
                 Sound buttonSound = new Sound("Sound\\lockinchampion.wav");
                 buttonSound.play();
                 SwingMatrixViewer.setStart(true);
-                SwingMatrixViewer.setBool(true);
+                SwingMatrixViewer.setRefresh(true);
                 frame.dispose();
             }
         });
@@ -64,7 +67,7 @@ public class SwingMatrixDialog extends JFrame {
     private JButton createOptionButton() {
         JButton button = new JButton("Option");
         button.setAlignmentX(CENTER_ALIGNMENT);
-        final StartOptions options = new StartOptions();
+        final SwingStartOptions options = new SwingStartOptions();
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

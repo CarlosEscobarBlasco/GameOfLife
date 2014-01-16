@@ -1,21 +1,21 @@
-
-
-package gameoflife.ui;
+package gameoflife.ui.Console;
 
 import gameoflife.model.MatrixChanger;
 import gameoflife.model.Matrix;
+import gameoflife.ui.MatrixViewer;
 
 
 public class ConsoleMatrixViewer implements MatrixViewer{
- 
+    private Matrix matrix;
     public ConsoleMatrixViewer(Matrix matrix) {
+        this.matrix = matrix;
     }
     
     @Override
     public void show(Matrix matrix){
         for (int n = 1; n < 20+1; n++) {
-            System.out.println("\n Iteracion nº: "+n);
-            ConsoleMatrixViewer.printMatrix(matrix);
+            System.out.println("\n");
+            printMatrix(matrix);
             MatrixChanger.change(matrix);
         }
     }

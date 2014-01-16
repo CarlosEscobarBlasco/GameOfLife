@@ -11,7 +11,7 @@ public class Matrix {
         this.matrix=matrix;
     }
         
-    public boolean shouldBeAlive(int i, int j){
+    private int countNeighbors(int i, int j){
         int count=0;
         if(i==0){
             if (j==0){  //esquina superior izq
@@ -68,10 +68,14 @@ public class Matrix {
             if(isBotAlive(i, j)) count++;
             if(isBotRightAlive(i, j)) count++;
         }
+        return count;
+    }
+    public boolean shouldBeAlive(int i, int j){
+        int count = countNeighbors(i,j);
         if (count==2 && matrix[i][j].isAlive()) return true;    //Still alive
         if (count==3)return true;   //Born
         return false;
-    }
+    } 
     
     private boolean isTopLeftAlive( int i, int j){
         if(matrix[i-1][j-1].isAlive()) return true;
